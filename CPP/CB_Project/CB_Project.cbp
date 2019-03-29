@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +23,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -32,7 +34,13 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/Cargo.h" />
+		<Unit filename="include/Datetime.h" />
+		<Unit filename="include/Money.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Cargo.cpp" />
+		<Unit filename="src/Datetime.cpp" />
+		<Unit filename="src/Money.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

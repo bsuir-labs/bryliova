@@ -3,12 +3,15 @@
 
 #include "money.h"
 #include "datetime.h"
+#include <QString>
 
 class Cargo
 {
     public:
         Cargo();
         virtual ~Cargo();
+
+        void set_name(const QString& name);
 
         void set_weight(double w);
         void set_volume(double v);
@@ -20,6 +23,7 @@ class Cargo
         void set_temperature_range(int minimal, int maximal);
         void set_time_range(Datetime minimal, Datetime maximal);
 
+        QString name();
 
         double weight();
         double volume();
@@ -37,6 +41,8 @@ class Cargo
         Datetime max_time();
 
     protected:
+        QString m_name;
+
         // sizes
         double m_weight;
         double m_volume;

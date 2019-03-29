@@ -28,6 +28,8 @@ private:
     std::vector<Cargo> cargos;
 
     void updateLog();
+    void updateCargoListWidget(std::vector<Cargo>::iterator element);
+    QWidget* check_fields();
 };
 
 #endif // MAINWINDOW_H

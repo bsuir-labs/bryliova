@@ -11,6 +11,11 @@ Cargo::~Cargo()
     //dtor
 }
 
+void Cargo::set_name(const QString &name)
+{
+    m_name = name;
+}
+
 void Cargo::set_weight(double w)
 {
     m_weight = w;
@@ -49,6 +54,11 @@ void Cargo::set_time_range(Datetime minimal, Datetime maximal)
     if (minimal > maximal)
         std::swap(minimal, maximal);
     m_time_range = std::make_pair(minimal, maximal);
+}
+
+QString Cargo::name()
+{
+    return m_name;
 }
 
 double Cargo::weight()
