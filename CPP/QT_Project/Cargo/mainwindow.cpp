@@ -7,6 +7,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->weightEdit->setValidator(new QDoubleValidator(0, 100, 4, this));
+    ui->lengthEdit->setValidator(new QDoubleValidator(0, 100, 4, this));
+    ui->volumeEdit->setValidator(new QDoubleValidator(0, 1000, 3, this));
+    ui->palletsEdit->setValidator(new QIntValidator(0, 25, this));
 }
 
 MainWindow::~MainWindow()
@@ -38,6 +41,12 @@ void MainWindow::updateCargoListWidget(std::vector<Cargo>::iterator element)
 
 QWidget* MainWindow::check_fields()
 {
+    ui->nameEdit->setText(ui->nameEdit->text().simplified());
+    ui->weightEdit->setText(ui->weightEdit->text().simplified());
+    ui->lengthEdit->setText(ui->lengthEdit->text().simplified());
+    ui->volumeEdit->setText(ui->volumeEdit->text().simplified());
+    ui->palletsEdit->setText(ui->palletsEdit->text().simplified());
+
     QWidget* failed = nullptr;
     if (ui->nameEdit->text() == "") failed = ui->nameEdit;
     if (ui->weightEdit->text() == "") failed = ui->weightEdit;
