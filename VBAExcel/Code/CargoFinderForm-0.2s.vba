@@ -1,12 +1,12 @@
-Public Function ValidateAll() As Boolean
-	If Not IsNumeric(weightEdit) Then
-		MsgBox ("Вес должен быть числом")
+Public Function ValidateAll() As Boolean    ' 	Проверка всех полей на корректность
+	If Not IsNumeric(weightEdit) Then ' 		Если поле содержит нечисловое значение
+		MsgBox ("Вес должен быть числом") ' 	То мы останавливаемся
 		weightEdit.SetFocus
-		ValidateAll = False
+		ValidateAll = False					' 	И выходим из функции, возвращая False
 		Exit Function
 	End If
 
-	If Not IsNumeric(lengthEdit) Then
+	If Not IsNumeric(lengthEdit) Then      '	Аналогично поступаем для всех полей
 		MsgBox ("Длина должна быть числом")
 		lengthEdit.SetFocus
 		ValidateAll = False
@@ -20,9 +20,9 @@ Public Function ValidateAll() As Boolean
 		Exit Function
 	End If
 
-	If temperatureCheckBox = True Then
-
-		If Not IsNumeric(minTempEdit) Then
+	If temperatureCheckBox = True Then 		'	Для полей с температурой проверка 
+											'	имеет смысл, только если в чекбоксе
+		If Not IsNumeric(minTempEdit) Then	'	стоит галочка
 			MsgBox ("Температура должны быть числом")
 			minTempEdit.SetFocus
 			ValidateAll = False
@@ -47,7 +47,7 @@ Public Function ValidateAll() As Boolean
 	ValidateAll = True
 End Function
 
-Private Sub updateSheet()
+Private Sub updateSheet()     
 	Worksheets("Results").UsedRange.ClearContents
 	Dim sheet As Worksheet
 	Set sheet = ActiveSheet
@@ -66,15 +66,15 @@ Private Sub submitButton_Click()
     Dim myRef As Boolean
     Dim myMinTemp, myMaxTemp As Integer
 
-    myStart = CStr(startBox.Text)
-    myDest = CStr(destinationBox.Text)
-    myWeight = CDbl(weightEdit.Value)
-    myVolume = CDbl(volumeEdit.Value)
-    myLength = CDbl(lengthEdit.Value)
-    myRef = temperatureCheckBox.Value
+    myStart = CStr(startBox)
+    myDest = CStr(destinationBox)
+    myWeight = CDbl(weightEdit)
+    myVolume = CDbl(volumeEdit)
+    myLength = CDbl(lengthEdit)
+    myRef = temperatureCheckBox
     If myRef Then
-        myMinTemp = CInt(minTempEdit.Value)
-        myMaxTemp = CInt(maxTempEdit.Value)
+        myMinTemp = CInt(minTempEdit)
+        myMaxTemp = CInt(maxTempEdit)
     End If
 
     Worksheets("MainTable").Activate
@@ -93,38 +93,50 @@ Private Sub submitButton_Click()
     For i = 4 To lastRow Step 1
         ref = False
         
-        start = CStr(Cells(i, "B").Value)
-        dest = CStr(Cells(i, "C").Value)
-        weight = CDbl(Cells(i, "F").Value)
-        volume = CDbl(Cells(i, "D").Value)
-        If IsNumeric(Cells(i, "E").Value) Then
-            length = CDbl(Cells(i, "E").Value)
+        start = CStr(Cells(i, "B"))
+        dest = CStr(Cells(i, "C"))
+        weight = CDbl(Cells(i, "F"))
+        volume = CDbl(Cells(i, "D"))
+        If IsNumeric(Cells(i, "E")) Then
+            length = CDbl(Cells(i, "E"))
         Else
             length = 0
         End If
         
-        If Not IsEmpty(Cells(i, "G").Value) And Not IsEmpty(Cells(i, "H").Value) And _
-             IsNumeric(Cells(i, "G").Value) And IsNumeric(Cells(i, "H").Value) Then
+        If Not IsEmpty(Cells(i, "G")) And Not IsEmpty(Cells(i, "H")) And _
+             IsNumeric(Cells(i, "G")) And IsNumeric(Cells(i, "H")) Then
             ref = True
-            minTemp = CInt(Cells(i, "G").Value)
-            maxTemp = CInt(Cells(i, "H").Value)
+            minTemp = CInt(Cells(i, "G"))
+            maxTemp = CInt(Cells(i, "H"))
         End If
-        
-        accept = False
         
         Dim ok As Boolean
         ok = myWeight >= weight And myLength >= length And myVolume >= volume
         ok = ok And ((ref And myRef And myMinTemp <= maxTemp And myMaxTemp >= minTemp) Or Not ref)
         ok = ok And (myStart = "Any" Or myStart = start) And (myDest = "Any" Or myDest = dest)
-        'Debug.Print (myStart + " " + start + " " + myDest + " " + dest + "\n")
-        
-        
         
         If ok Then
-            'MsgBox (.Cells(i, "A").Value)
             pushRow (Rows(i))
         End If
     Next i
 
     Unload Me
+End Sub
+
+Private Sub pushRow(ByRef rw As Range)
+	Dim lastRow As Integer
+	lastRow = Worksheets("Results").Cells(Rows.Count, "A").End(xlUp).Row + 1
+	rw.EntireRow.Copy (Worksheets("Results").Rows(lastRow))
+End Sub
+
+Private Sub temperatureCheckBox_Click()
+	If temperatureCheckBox.Value = True Then
+		minTempEdit.Locked = False
+		maxTempEdit.Locked = False
+	Else
+		minTempEdit.Locked = True
+		maxTempEdit.Locked = True
+		minTempEdit = ""
+		maxTempEdit = ""
+	End If
 End Sub
