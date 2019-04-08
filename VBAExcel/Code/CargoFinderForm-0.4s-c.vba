@@ -1,52 +1,3 @@
-Public Function ValidateAll() As Boolean    '   Проверка всех полей на корректность
-    If Not IsNumeric(weightEdit) Then '         Если поле содержит нечисловое значение
-        MsgBox ("Вес должен быть числом") '     То мы останавливаемся
-        weightEdit.SetFocus
-        ValidateAll = False                 '   И выходим из функции, возвращая False
-        Exit Function
-    End If
-
-    If Not IsNumeric(lengthEdit) Then      '    Аналогично поступаем для всех полей
-        MsgBox ("Длина должна быть числом")
-        lengthEdit.SetFocus
-        ValidateAll = False
-        Exit Function
-    End If
-
-    If Not IsNumeric(volumeEdit) Then
-        MsgBox ("Объём должен быть числом")
-        volumeEdit.SetFocus
-        ValidateAll = False
-        Exit Function
-    End If
-
-    If temperatureCheckBox = True Then      '   Для полей с температурой проверка
-                                            '   имеет смысл, только если в чекбоксе
-        If Not IsNumeric(minTempEdit) Then  '   стоит галочка
-            MsgBox ("Температура должна быть числом")
-            minTempEdit.SetFocus
-            ValidateAll = False
-            Exit Function
-        End If
-
-        If Not IsNumeric(maxTempEdit) Then
-            MsgBox ("Температура должны быть числом")
-            maxTempEdit.SetFocus
-            ValidateAll = False
-            Exit Function
-        End If
-
-        If CInt(minTempEdit) > CInt(maxTempEdit) Then  ' Проверяем, что минимальная температура
-            Dim temp As String                         ' меньше максимальной
-            temp = minTempEdit                         ' И если такое вдруг случилось - не беда
-            minTempEdit = maxTempEdit                  ' Просто поменяем их местами
-            maxTempEdit = temp
-        End If
-
-    End If
-    ValidateAll = True  ' Если прошли все проверки - вернём True
-End Function
-
 Private Sub updateSheet()                               ' Подготовим лист с результатами
     Dim mainSheet, resultSheet As Worksheet             ' Объявим переменные для удобства
     Set mainSheet = Worksheets("MainTable")             ' Главный лист с основной таблицей
@@ -61,10 +12,6 @@ Private Sub updateSheet()                               ' Подготовим �
 End Sub
 
 Private Sub submitButton_Click()                        ' Итак, начинаем работу
-    If Not ValidateAll Then                             ' Проверим все поля на корректность (см выше)
-        Exit Sub                                        ' Если что-то не так - останавливаемся
-    End If
-
     updateSheet                                         ' Вызовем функцию для подготовки листа с рез-тами (см выше)
 
     Dim myStart, myDest As String                       ' Объявим все переменные для работы
@@ -72,15 +19,15 @@ Private Sub submitButton_Click()                        ' Итак, начина
     Dim myRef As Boolean
     Dim myMinTemp, myMaxTemp As Integer
 
-    myStart = CStr(startBox)                            ' Положим сюда значение поля "откуда"
-    myDest = CStr(destinationBox)                       ' CStr - "Convert to String"
-    myWeight = CDbl(weightEdit)                         ' CDbl - "Convert to Double"
-    myVolume = CDbl(volumeEdit)
-    myLength = CDbl(lengthEdit)
+    myStart = startBox                                  ' Положим сюда значение поля "откуда"
+    myDest = destinationBox                             ' CStr - "Convert to String"
+    myWeight = Val(weightEdit)                         ' CDbl - "Convert to Double"
+    myVolume = Val(volumeEdit)
+    myLength = Val(lengthEdit)
     myRef = temperatureCheckBox
     If myRef Then
-        myMinTemp = CInt(minTempEdit)                   ' CInt - "Convert to Integer"
-        myMaxTemp = CInt(maxTempEdit)
+        myMinTemp = Val(minTempEdit)                   ' CInt - "Convert to Integer"
+        myMaxTemp = Val(maxTempEdit)
     End If
 
     Worksheets("MainTable").Activate
@@ -99,18 +46,17 @@ Private Sub submitButton_Click()                        ' Итак, начина
     Set resultsSheet = Worksheets("Results")
     
     lastRow = Cells(Rows.Count, "A").End(xlUp).Row      ' Поиск номера последней строки в таблице
-    MsgBox (Rows.Count)
     resultsLastRow = 2                                  ' Я не знаю, как это сделать проще
 
     For i = 4 To lastRow                                ' Идём по строкам таблицы и сравниваем значения
         ref = False
         
-        start = CStr(Cells(i, "B"))                     ' Откуда
-        dest = CStr(Cells(i, "C"))                      ' Куда, и т.д.
-        weight = CDbl(Cells(i, "F"))
-        volume = CDbl(Cells(i, "D"))
+        start = Cells(i, "B")                           ' Откуда
+        dest = Cells(i, "C")                            ' Куда, и т.д.
+        weight = Val(Cells(i, "F"))
+        volume = Val(Cells(i, "D"))
         If IsNumeric(Cells(i, "E")) Then
-            length = CDbl(Cells(i, "E"))
+            length = Val(Cells(i, "E"))
         Else
             length = 0
         End If
@@ -118,8 +64,8 @@ Private Sub submitButton_Click()                        ' Итак, начина
         If Not IsEmpty(Cells(i, "G")) And Not IsEmpty(Cells(i, "H")) And _
              IsNumeric(Cells(i, "G")) And IsNumeric(Cells(i, "H")) Then                 ' Разбирательства с температурой
             ref = True
-            minTemp = CInt(Cells(i, "G"))
-            maxTemp = CInt(Cells(i, "H"))
+            minTemp = Val(Cells(i, "G"))
+            maxTemp = Val(Cells(i, "H"))
         End If
         
         Dim ok As Boolean                                                                               ' Чтоб проверить, подходит ли груз, создадим для удобства переменную

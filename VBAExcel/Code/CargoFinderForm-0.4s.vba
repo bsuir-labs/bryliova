@@ -1,52 +1,3 @@
-Public Function ValidateAll() As Boolean
-    If Not IsNumeric(weightEdit) Then
-        MsgBox ("Вес должен быть числом")
-        weightEdit.SetFocus
-        ValidateAll = False
-        Exit Function
-    End If
-
-    If Not IsNumeric(lengthEdit) Then
-        MsgBox ("Длина должна быть числом")
-        lengthEdit.SetFocus
-        ValidateAll = False
-        Exit Function
-    End If
-
-    If Not IsNumeric(volumeEdit) Then
-        MsgBox ("Объём должен быть числом")
-        volumeEdit.SetFocus
-        ValidateAll = False
-        Exit Function
-    End If
-
-    If temperatureCheckBox = True Then
-                                           
-        If Not IsNumeric(minTempEdit) Then
-            MsgBox ("Температура должна быть числом")
-            minTempEdit.SetFocus
-            ValidateAll = False
-            Exit Function
-        End If
-
-        If Not IsNumeric(maxTempEdit) Then
-            MsgBox ("Температура должны быть числом")
-            maxTempEdit.SetFocus
-            ValidateAll = False
-            Exit Function
-        End If
-
-        If CInt(minTempEdit) > CInt(maxTempEdit) Then
-            Dim temp As String
-            temp = minTempEdit
-            minTempEdit = maxTempEdit
-            maxTempEdit = temp
-        End If
-
-    End If
-    ValidateAll = True
-End Function
-
 Private Sub updateSheet()
     Dim mainSheet, resultSheet As Worksheet
     Set mainSheet = Worksheets("MainTable")
@@ -61,10 +12,6 @@ Private Sub updateSheet()
 End Sub
 
 Private Sub submitButton_Click()
-    If Not ValidateAll Then
-        Exit Sub
-    End If
-
     updateSheet
 
     Dim myStart, myDest As String
@@ -72,15 +19,15 @@ Private Sub submitButton_Click()
     Dim myRef As Boolean
     Dim myMinTemp, myMaxTemp As Integer
 
-    myStart = CStr(startBox)
-    myDest = CStr(destinationBox)
-    myWeight = CDbl(weightEdit)
-    myVolume = CDbl(volumeEdit)
-    myLength = CDbl(lengthEdit)
+    myStart = startBox
+    myDest = destinationBox
+    myWeight = Val(weightEdit)
+    myVolume = Val(volumeEdit)
+    myLength = Val(lengthEdit)
     myRef = temperatureCheckBox
     If myRef Then
-        myMinTemp = CInt(minTempEdit)
-        myMaxTemp = CInt(maxTempEdit)
+        myMinTemp = Val(minTempEdit)
+        myMaxTemp = Val(maxTempEdit)
     End If
 
     Worksheets("MainTable").Activate
@@ -99,18 +46,17 @@ Private Sub submitButton_Click()
     Set resultsSheet = Worksheets("Results")
     
     lastRow = Cells(Rows.Count, "A").End(xlUp).Row
-    MsgBox (Rows.Count)
     resultsLastRow = 2
 
     For i = 4 To lastRow
         ref = False
         
-        start = CStr(Cells(i, "B"))
-        dest = CStr(Cells(i, "C"))
-        weight = CDbl(Cells(i, "F"))
-        volume = CDbl(Cells(i, "D"))
+        start = Cells(i, "B")
+        dest = Cells(i, "C")
+        weight = Val(Cells(i, "F"))
+        volume = Val(Cells(i, "D"))
         If IsNumeric(Cells(i, "E")) Then
-            length = CDbl(Cells(i, "E"))
+            length = Val(Cells(i, "E"))
         Else
             length = 0
         End If
@@ -118,8 +64,8 @@ Private Sub submitButton_Click()
         If Not IsEmpty(Cells(i, "G")) And Not IsEmpty(Cells(i, "H")) And _
              IsNumeric(Cells(i, "G")) And IsNumeric(Cells(i, "H")) Then
             ref = True
-            minTemp = CInt(Cells(i, "G"))
-            maxTemp = CInt(Cells(i, "H"))
+            minTemp = Val(Cells(i, "G"))
+            maxTemp = Val(Cells(i, "H"))
         End If
         
         Dim ok As Boolean
