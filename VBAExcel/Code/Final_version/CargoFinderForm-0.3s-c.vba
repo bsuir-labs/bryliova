@@ -1,78 +1,78 @@
-Public Function ValidateAll() As Boolean    '   Проверка всех полей на корректность
-    If Not IsNumeric(weightEdit) Then '         Если поле содержит нечисловое значение
-        MsgBox ("Вес должен быть числом") '     То мы останавливаемся
+Public Function ValidateAll() As Boolean    '   РџСЂРѕРІРµСЂРєР° РІСЃРµС… РїРѕР»РµР№ РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ
+    If Not IsNumeric(weightEdit) Then '         Р•СЃР»Рё РїРѕР»Рµ СЃРѕРґРµСЂР¶РёС‚ РЅРµС‡РёСЃР»РѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ
+        MsgBox ("Р’РµСЃ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ С‡РёСЃР»РѕРј") '     РўРѕ РјС‹ РѕСЃС‚Р°РЅР°РІР»РёРІР°РµРјСЃСЏ
         weightEdit.SetFocus
-        ValidateAll = False                 '   И выходим из функции, возвращая False
+        ValidateAll = False                 '   Р РІС‹С…РѕРґРёРј РёР· С„СѓРЅРєС†РёРё, РІРѕР·РІСЂР°С‰Р°СЏ False
         Exit Function
     End If
 
-    If Not IsNumeric(lengthEdit) Then      '    Аналогично поступаем для всех полей
-        MsgBox ("Длина должна быть числом")
+    If Not IsNumeric(lengthEdit) Then      '    РђРЅР°Р»РѕРіРёС‡РЅРѕ РїРѕСЃС‚СѓРїР°РµРј РґР»СЏ РІСЃРµС… РїРѕР»РµР№
+        MsgBox ("Р”Р»РёРЅР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С‡РёСЃР»РѕРј")
         lengthEdit.SetFocus
         ValidateAll = False
         Exit Function
     End If
 
     If Not IsNumeric(volumeEdit) Then
-        MsgBox ("Объём должен быть числом")
+        MsgBox ("РћР±СЉС‘Рј РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ С‡РёСЃР»РѕРј")
         volumeEdit.SetFocus
         ValidateAll = False
         Exit Function
     End If
 
-    If temperatureCheckBox = True Then      '   Для полей с температурой проверка
-                                            '   имеет смысл, только если в чекбоксе
-        If Not IsNumeric(minTempEdit) Then  '   стоит галочка
-            MsgBox ("Температура должна быть числом")
+    If temperatureCheckBox = True Then      '   Р”Р»СЏ РїРѕР»РµР№ СЃ С‚РµРјРїРµСЂР°С‚СѓСЂРѕР№ РїСЂРѕРІРµСЂРєР°
+                                            '   РёРјРµРµС‚ СЃРјС‹СЃР», С‚РѕР»СЊРєРѕ РµСЃР»Рё РІ С‡РµРєР±РѕРєСЃРµ
+        If Not IsNumeric(minTempEdit) Then  '   СЃС‚РѕРёС‚ РіР°Р»РѕС‡РєР°
+            MsgBox ("РўРµРјРїРµСЂР°С‚СѓСЂР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С‡РёСЃР»РѕРј")
             minTempEdit.SetFocus
             ValidateAll = False
             Exit Function
         End If
 
         If Not IsNumeric(maxTempEdit) Then
-            MsgBox ("Температура должны быть числом")
+            MsgBox ("РўРµРјРїРµСЂР°С‚СѓСЂР° РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ С‡РёСЃР»РѕРј")
             maxTempEdit.SetFocus
             ValidateAll = False
             Exit Function
         End If
 
-        If CInt(minTempEdit) > CInt(maxTempEdit) Then  ' Проверяем, что минимальная температура
-            Dim temp As String                         ' меньше максимальной
-            temp = minTempEdit                         ' И если такое вдруг случилось - не беда
-            minTempEdit = maxTempEdit                  ' Просто поменяем их местами
+        If CInt(minTempEdit) > CInt(maxTempEdit) Then  ' РџСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ РјРёРЅРёРјР°Р»СЊРЅР°СЏ С‚РµРјРїРµСЂР°С‚СѓСЂР°
+            Dim temp As String                         ' РјРµРЅСЊС€Рµ РјР°РєСЃРёРјР°Р»СЊРЅРѕР№
+            temp = minTempEdit                         ' Р РµСЃР»Рё С‚Р°РєРѕРµ РІРґСЂСѓРі СЃР»СѓС‡РёР»РѕСЃСЊ - РЅРµ Р±РµРґР°
+            minTempEdit = maxTempEdit                  ' РџСЂРѕСЃС‚Рѕ РїРѕРјРµРЅСЏРµРј РёС… РјРµСЃС‚Р°РјРё
             maxTempEdit = temp
         End If
 
     End If
-    ValidateAll = True  ' Если прошли все проверки - вернём True
+    ValidateAll = True  ' Р•СЃР»Рё РїСЂРѕС€Р»Рё РІСЃРµ РїСЂРѕРІРµСЂРєРё - РІРµСЂРЅС‘Рј True
 End Function
 
-Private Sub updateSheet()                               ' Подготовим лист с результатами
-    Dim mainSheet, resultSheet As Worksheet             ' Объявим переменные для удобства
-    Set mainSheet = Worksheets("MainTable")             ' Главный лист с основной таблицей
-    Set resultSheet = Worksheets("Results")             ' А тут результаты
+Private Sub updateSheet()                               ' РџРѕРґРіРѕС‚РѕРІРёРј Р»РёСЃС‚ СЃ СЂРµР·СѓР»СЊС‚Р°С‚Р°РјРё
+    Dim mainSheet, resultSheet As Worksheet             ' РћР±СЉСЏРІРёРј РїРµСЂРµРјРµРЅРЅС‹Рµ РґР»СЏ СѓРґРѕР±СЃС‚РІР°
+    Set mainSheet = Worksheets("MainTable")             ' Р“Р»Р°РІРЅС‹Р№ Р»РёСЃС‚ СЃ РѕСЃРЅРѕРІРЅРѕР№ С‚Р°Р±Р»РёС†РµР№
+    Set resultSheet = Worksheets("Results")             ' Рђ С‚СѓС‚ СЂРµР·СѓР»СЊС‚Р°С‚С‹
 
-    resultSheet.UsedRange.ClearContents                 ' Очистим лист с результатами от мусора
+    resultSheet.UsedRange.ClearContents                 ' РћС‡РёСЃС‚РёРј Р»РёСЃС‚ СЃ СЂРµР·СѓР»СЊС‚Р°С‚Р°РјРё РѕС‚ РјСѓСЃРѕСЂР°
     
     Dim i As Integer
-    For i = Asc("A") To Asc("I")                        ' Перенесём шапку из главной таблицы
+    For i = Asc("A") To Asc("I")                        ' РџРµСЂРµРЅРµСЃС‘Рј С€Р°РїРєСѓ РёР· РіР»Р°РІРЅРѕР№ С‚Р°Р±Р»РёС†С‹
         resultSheet.Cells(1, Chr(i)) = Cells(3, Chr(i))
     Next i
 End Sub
 
-Private Sub submitButton_Click()                        ' Итак, начинаем работу
-    If Not ValidateAll Then                             ' Проверим все поля на корректность (см выше)
-        Exit Sub                                        ' Если что-то не так - останавливаемся
+Private Sub submitButton_Click()                        ' РС‚Р°Рє, РЅР°С‡РёРЅР°РµРј СЂР°Р±РѕС‚Сѓ
+    If Not ValidateAll Then                             ' РџСЂРѕРІРµСЂРёРј РІСЃРµ РїРѕР»СЏ РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ (СЃРј РІС‹С€Рµ)
+        Exit Sub                                        ' Р•СЃР»Рё С‡С‚Рѕ-С‚Рѕ РЅРµ С‚Р°Рє - РѕСЃС‚Р°РЅР°РІР»РёРІР°РµРјСЃСЏ
     End If
 
-    updateSheet                                         ' Вызовем функцию для подготовки листа с рез-тами (см выше)
+    updateSheet                                         ' Р’С‹Р·РѕРІРµРј С„СѓРЅРєС†РёСЋ РґР»СЏ РїРѕРґРіРѕС‚РѕРІРєРё Р»РёСЃС‚Р° СЃ СЂРµР·-С‚Р°РјРё (СЃРј РІС‹С€Рµ)
 
-    Dim myStart, myDest As String                       ' Объявим все переменные для работы
+    Dim myStart, myDest As String                       ' РћР±СЉСЏРІРёРј РІСЃРµ РїРµСЂРµРјРµРЅРЅС‹Рµ РґР»СЏ СЂР°Р±РѕС‚С‹
     Dim myWeight, myVolume, myLength As Double
     Dim myRef As Boolean
     Dim myMinTemp, myMaxTemp As Integer
 
-    myStart = CStr(startBox)                            ' Положим сюда значение поля "откуда"
+    myStart = CStr(startBox)                            ' РџРѕР»РѕР¶РёРј СЃСЋРґР° Р·РЅР°С‡РµРЅРёРµ РїРѕР»СЏ "РѕС‚РєСѓРґР°"
     myDest = CStr(destinationBox)                       ' CStr - "Convert to String"
     myWeight = CDbl(weightEdit)                         ' CDbl - "Convert to Double"
     myVolume = CDbl(volumeEdit)
@@ -85,7 +85,7 @@ Private Sub submitButton_Click()                        ' Итак, начинаем работу
 
     Worksheets("MainTable").Activate
 
-    Dim i, resultsLastRow As Integer                    ' Объявим ещё переменных для удобства
+    Dim i, resultsLastRow As Integer                    ' РћР±СЉСЏРІРёРј РµС‰С‘ РїРµСЂРµРјРµРЅРЅС‹С… РґР»СЏ СѓРґРѕР±СЃС‚РІР°
     Dim lastRow As Long
     Dim rw As Range
     Dim c As Integer
@@ -98,15 +98,15 @@ Private Sub submitButton_Click()                        ' Итак, начинаем работу
     Dim resultsSheet As Worksheet
     Set resultsSheet = Worksheets("Results")
     
-    lastRow = Cells(Rows.Count, "A").End(xlUp).Row      ' Поиск номера последней строки в таблице
+    lastRow = Cells(Rows.Count, "A").End(xlUp).Row      ' РџРѕРёСЃРє РЅРѕРјРµСЂР° РїРѕСЃР»РµРґРЅРµР№ СЃС‚СЂРѕРєРё РІ С‚Р°Р±Р»РёС†Рµ
     MsgBox (Rows.Count)
-    resultsLastRow = 2                                  ' Я не знаю, как это сделать проще
+    resultsLastRow = 2                                  ' РЇ РЅРµ Р·РЅР°СЋ, РєР°Рє СЌС‚Рѕ СЃРґРµР»Р°С‚СЊ РїСЂРѕС‰Рµ
 
-    For i = 4 To lastRow                                ' Идём по строкам таблицы и сравниваем значения
+    For i = 4 To lastRow                                ' РРґС‘Рј РїРѕ СЃС‚СЂРѕРєР°Рј С‚Р°Р±Р»РёС†С‹ Рё СЃСЂР°РІРЅРёРІР°РµРј Р·РЅР°С‡РµРЅРёСЏ
         ref = False
         
-        start = CStr(Cells(i, "B"))                     ' Откуда
-        dest = CStr(Cells(i, "C"))                      ' Куда, и т.д.
+        start = CStr(Cells(i, "B"))                     ' РћС‚РєСѓРґР°
+        dest = CStr(Cells(i, "C"))                      ' РљСѓРґР°, Рё С‚.Рґ.
         weight = CDbl(Cells(i, "F"))
         volume = CDbl(Cells(i, "D"))
         If IsNumeric(Cells(i, "E")) Then
@@ -116,39 +116,39 @@ Private Sub submitButton_Click()                        ' Итак, начинаем работу
         End If
         
         If Not IsEmpty(Cells(i, "G")) And Not IsEmpty(Cells(i, "H")) And _
-             IsNumeric(Cells(i, "G")) And IsNumeric(Cells(i, "H")) Then                 ' Разбирательства с температурой
+             IsNumeric(Cells(i, "G")) And IsNumeric(Cells(i, "H")) Then                 ' Р Р°Р·Р±РёСЂР°С‚РµР»СЊСЃС‚РІР° СЃ С‚РµРјРїРµСЂР°С‚СѓСЂРѕР№
             ref = True
             minTemp = CInt(Cells(i, "G"))
             maxTemp = CInt(Cells(i, "H"))
         End If
         
-        Dim ok As Boolean                                                                               ' Чтоб проверить, подходит ли груз, создадим для удобства переменную
-        ok = myWeight >= weight And myLength >= length And myVolume >= volume                           ' Сравним вес, длину, объём
-        ok = ok And ((ref And myRef And myMinTemp <= maxTemp And myMaxTemp >= minTemp) Or Not ref)      ' Если требуется - сравним температуры
-        ok = ok And (myStart = "Any" Or myStart = start) And (myDest = "Any" Or myDest = dest)          ' И конечно, сравним пункт назначения и отправления
+        Dim ok As Boolean                                                                               ' Р§С‚РѕР± РїСЂРѕРІРµСЂРёС‚СЊ, РїРѕРґС…РѕРґРёС‚ Р»Рё РіСЂСѓР·, СЃРѕР·РґР°РґРёРј РґР»СЏ СѓРґРѕР±СЃС‚РІР° РїРµСЂРµРјРµРЅРЅСѓСЋ
+        ok = myWeight >= weight And myLength >= length And myVolume >= volume                           ' РЎСЂР°РІРЅРёРј РІРµСЃ, РґР»РёРЅСѓ, РѕР±СЉС‘Рј
+        ok = ok And ((ref And myRef And myMinTemp <= maxTemp And myMaxTemp >= minTemp) Or Not ref)      ' Р•СЃР»Рё С‚СЂРµР±СѓРµС‚СЃСЏ - СЃСЂР°РІРЅРёРј С‚РµРјРїРµСЂР°С‚СѓСЂС‹
+        ok = ok And (myStart = "Any" Or myStart = start) And (myDest = "Any" Or myDest = dest)          ' Р РєРѕРЅРµС‡РЅРѕ, СЃСЂР°РІРЅРёРј РїСѓРЅРєС‚ РЅР°Р·РЅР°С‡РµРЅРёСЏ Рё РѕС‚РїСЂР°РІР»РµРЅРёСЏ
         
-        If ok Then                          ' Если всё ещё тут True,
-                                            ' значит, груз нам подходит
+        If ok Then                          ' Р•СЃР»Рё РІСЃС‘ РµС‰С‘ С‚СѓС‚ True,
+                                            ' Р·РЅР°С‡РёС‚, РіСЂСѓР· РЅР°Рј РїРѕРґС…РѕРґРёС‚
             For c = Asc("A") To Asc("I")
-                resultsSheet.Cells(resultsLastRow, Chr(c)) = Cells(i, Chr(c))   ' Переносим его в таблицу результатов
+                resultsSheet.Cells(resultsLastRow, Chr(c)) = Cells(i, Chr(c))   ' РџРµСЂРµРЅРѕСЃРёРј РµРіРѕ РІ С‚Р°Р±Р»РёС†Сѓ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
             Next c
-            resultsLastRow = resultsLastRow + 1     ' Увеличим счётчик последней строки в результатах (сюда положим следующий подходящий груз)
+            resultsLastRow = resultsLastRow + 1     ' РЈРІРµР»РёС‡РёРј СЃС‡С‘С‚С‡РёРє РїРѕСЃР»РµРґРЅРµР№ СЃС‚СЂРѕРєРё РІ СЂРµР·СѓР»СЊС‚Р°С‚Р°С… (СЃСЋРґР° РїРѕР»РѕР¶РёРј СЃР»РµРґСѓСЋС‰РёР№ РїРѕРґС…РѕРґСЏС‰РёР№ РіСЂСѓР·)
         End If
     Next i
 
     For c = Asc("A") To Asc("I")
-        resultsSheet.Range(Chr(c) & "1").EntireColumn.AutoFit  ' Подгоним размеры столбцов
+        resultsSheet.Range(Chr(c) & "1").EntireColumn.AutoFit  ' РџРѕРґРіРѕРЅРёРј СЂР°Р·РјРµСЂС‹ СЃС‚РѕР»Р±С†РѕРІ
     Next c
 
-    Unload Me           ' Закрываем форму, когда всё выполнилось
+    Unload Me           ' Р—Р°РєСЂС‹РІР°РµРј С„РѕСЂРјСѓ, РєРѕРіРґР° РІСЃС‘ РІС‹РїРѕР»РЅРёР»РѕСЃСЊ
 End Sub
 
-Private Sub temperatureCheckBox_Click()             ' Если изменили состояние чекбокса
-    If temperatureCheckBox.Value = True Then        ' Если галочку поставили
-        minTempEdit.Locked = False                  ' Активируем поля для температуры
+Private Sub temperatureCheckBox_Click()             ' Р•СЃР»Рё РёР·РјРµРЅРёР»Рё СЃРѕСЃС‚РѕСЏРЅРёРµ С‡РµРєР±РѕРєСЃР°
+    If temperatureCheckBox.Value = True Then        ' Р•СЃР»Рё РіР°Р»РѕС‡РєСѓ РїРѕСЃС‚Р°РІРёР»Рё
+        minTempEdit.Locked = False                  ' РђРєС‚РёРІРёСЂСѓРµРј РїРѕР»СЏ РґР»СЏ С‚РµРјРїРµСЂР°С‚СѓСЂС‹
         maxTempEdit.Locked = False
-    Else                                            ' А если убрали -
-        minTempEdit.Locked = True                   ' Блокируем
+    Else                                            ' Рђ РµСЃР»Рё СѓР±СЂР°Р»Рё -
+        minTempEdit.Locked = True                   ' Р‘Р»РѕРєРёСЂСѓРµРј
         maxTempEdit.Locked = True
         minTempEdit = ""
         maxTempEdit = ""

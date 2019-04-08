@@ -1,20 +1,20 @@
 Public Function ValidateAll() As Boolean
     If Not IsNumeric(weightEdit) Then
-        MsgBox ("Вес должен быть числом")
+        MsgBox ("Р’РµСЃ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ С‡РёСЃР»РѕРј")
         weightEdit.SetFocus
         ValidateAll = False
         Exit Function
     End If
 
     If Not IsNumeric(lengthEdit) Then
-        MsgBox ("Длина должна быть числом")
+        MsgBox ("Р”Р»РёРЅР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С‡РёСЃР»РѕРј")
         lengthEdit.SetFocus
         ValidateAll = False
         Exit Function
     End If
 
     If Not IsNumeric(volumeEdit) Then
-        MsgBox ("Объём должен быть числом")
+        MsgBox ("РћР±СЉС‘Рј РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ С‡РёСЃР»РѕРј")
         volumeEdit.SetFocus
         ValidateAll = False
         Exit Function
@@ -23,14 +23,14 @@ Public Function ValidateAll() As Boolean
     If temperatureCheckBox = True Then
                                            
         If Not IsNumeric(minTempEdit) Then
-            MsgBox ("Температура должна быть числом")
+            MsgBox ("РўРµРјРїРµСЂР°С‚СѓСЂР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С‡РёСЃР»РѕРј")
             minTempEdit.SetFocus
             ValidateAll = False
             Exit Function
         End If
 
         If Not IsNumeric(maxTempEdit) Then
-            MsgBox ("Температура должны быть числом")
+            MsgBox ("РўРµРјРїРµСЂР°С‚СѓСЂР° РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ С‡РёСЃР»РѕРј")
             maxTempEdit.SetFocus
             ValidateAll = False
             Exit Function
